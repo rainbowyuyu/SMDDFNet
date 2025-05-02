@@ -1,6 +1,6 @@
 # MDDFNet: Mamba-based Dynamic Dual Fusion Network for Traffic Sign Detection
 
-![Python 3.10](https://img.shields.io/badge/python-3.10-g) ![pytorch 2.3.0](https://img.shields.io/badge/pytorch-2.3.0-blue.svg) [![docs](https://img.shields.io/badge/language-English-blue)](README.md)
+![Python 3.10](https://img.shields.io/badge/python-3.10-g) ![pytorch 2.6.0](https://img.shields.io/badge/pytorch-2.3.0-blue.svg) [![docs](https://img.shields.io/badge/language-English-blue)](README.md)
 
 
 <div align="center">
@@ -27,7 +27,7 @@ We've pre-trained YOLO-World-T/M from scratch and evaluate on the `TT100K val`.
 
 ### 1. Installation
 
-MDDF is developed based on `torch==2.3.0` `pytorch-cuda==12.1` and `CUDA Version==12.6`. 
+MDDF is developed based on `torch==2.6.0`  and `CUDA Version==11.8`. 
 
 #### 2.Clone Project 
 
