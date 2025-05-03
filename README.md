@@ -11,6 +11,10 @@
 
 We've pre-trained YOLO-World-T/M from scratch and evaluate on the `TT100K val`. 
 
+## Dataset
+
+We use [TT100k](https://cg.cs.tsinghua.edu.cn/traffic-sign/) and convert it to YOLO format to evaluate the SOTA of models
+
 ### Inference on TT100K dataset
 
 
