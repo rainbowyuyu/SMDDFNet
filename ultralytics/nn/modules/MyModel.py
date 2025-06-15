@@ -19,7 +19,7 @@ class EMA(nn.Module):
         self.conv3x3 = nn.Conv2d(channels // self.groups, channels // self.groups, kernel_size=3, stride=1, padding=1)
 
     def forward(self, x):
-        x = x
+        x = x.to(self.conv1x1.weight.dtype)
         b, c, h, w = x.size()
         group_x = x.reshape(b * self.groups, -1, h, w)
         x_h = self.pool_h(group_x)
@@ -34,12 +34,6 @@ class EMA(nn.Module):
         x22 = x1.reshape(b * self.groups, c // self.groups, -1)  # b*g, c//g, hw
         weights = (torch.matmul(x11, x12) + torch.matmul(x21, x22)).reshape(b * self.groups, 1, h, w)
         return (group_x * weights.sigmoid()).reshape(b, c, h, w)
-
-
-import torch
-import torch.nn as nn
-import collections
-from itertools import repeat
 
 
 class StarReLU(nn.Module):
@@ -90,17 +84,18 @@ class DynamicFilter(nn.Module):
 
         routeing = self.reweight(x.mean(dim=(1, 2))).view(B, self.num_filters,
                                                           -1).softmax(dim=1)
+        x = x.to(self.pwconv1.weight.dtype)
         x = self.pwconv1(x)
         x = self.act1(x)
         x = x.to(torch.float32)
         x = torch.fft.rfft2(x, dim=(1, 2), norm='ortho')
 
         if self.weight_resize:
-            complex_weights = resize_complex_weight(self.complex_weights, x.shape[1],
-                                                    x.shape[2])
-            complex_weights = torch.view_as_complex(complex_weights.contiguous())
+            complex_weights = resize_complex_weight(self.complex_weights, x.shape[1], x.shape[2])
+            complex_weights = torch.view_as_complex(complex_weights.to(torch.float32).contiguous())
         else:
-            complex_weights = torch.view_as_complex(self.complex_weights)
+            complex_weights = torch.view_as_complex(self.complex_weights.to(torch.float32))
+
 
         routeing = routeing.to(torch.complex64)
         weight = torch.einsum('bfc,hwf->bhwc', routeing, complex_weights)
@@ -114,6 +109,10 @@ class DynamicFilter(nn.Module):
         x = torch.fft.irfft2(x, s=(H, W), dim=(1, 2), norm='ortho')
 
         x = self.act2(x)
+
+        # 确保输入 x 的数据类型和 self.pwconv2 的权重数据类型一致
+        x = x.to(self.pwconv2.weight.dtype)
+
         x = self.pwconv2(x)
         x = x.permute(0, 3, 1, 2)
         return x
@@ -156,6 +155,7 @@ class Mlp(nn.Module):
         self.drop2 = nn.Dropout(drop_probs[1])
 
     def forward(self, x):
+        x = x.to(self.fc1.weight.dtype)
         x = self.fc1(x)
         x = self.act(x)
         x = self.drop1(x)
@@ -189,14 +189,16 @@ class YoloTwoChannels(nn.Module):
         self.in_channels = in_channels
         self.out_channels = out_channels
 
+        # 将 EMA 和 DynamicFilter 移到 init 中
+        self.f_i_blk = EMA(self.in_channels)
+        self.f_ip1_blk = DynamicFilter(self.in_channels)
+
+        # 其余保持不变...
         self.conv_1x1_fi = nn.Conv2d(in_channels, out_channels, kernel_size=1)
         self.conv_1x1_fi1 = nn.Conv2d(in_channels, out_channels, kernel_size=1)
 
         self.conv_3x3_fi = nn.Conv2d(out_channels * 2, out_channels, kernel_size=3, padding=1)
         self.conv_5x5_fi = nn.Conv2d(out_channels * 2, out_channels, kernel_size=5, padding=2)
-
-        self.conv_3x3_fi1 = nn.Conv2d(out_channels * 2, out_channels, kernel_size=3, padding=1)
-        self.conv_5x5_fi1 = nn.Conv2d(out_channels * 2, out_channels, kernel_size=5, padding=2)
 
         self.conv_3x3_final = nn.Conv2d(out_channels * 2, out_channels, kernel_size=3, padding=1)
         self.conv_5x5_final = nn.Conv2d(out_channels * 2, out_channels, kernel_size=5, padding=2)
@@ -207,11 +209,12 @@ class YoloTwoChannels(nn.Module):
         self.output_layer = nn.Conv2d(out_channels, in_channels, kernel_size=3, padding=1)
 
     def forward(self, x):
-        f_i, f_ip1 = x, x  # 这里假设输入 x 是单个张量
-        f_i_blk = EMA(self.in_channels).to(x.device)
-        f_i = f_i_blk(f_i)
-        f_ip1_blk = DynamicFilter(self.in_channels).to(x.device)
-        f_ip1 = f_ip1_blk(f_ip1)
+        x = x.float()
+        f_i, f_ip1 = x.clone(), x.clone()
+
+        # 模块已经在 init 中初始化
+        f_i = self.f_i_blk(f_i)
+        f_ip1 = self.f_ip1_blk(f_ip1)
 
         f_i_1x1 = self.conv_1x1_fi(f_i)
         f_ip1_1x1 = self.conv_1x1_fi1(f_ip1)
@@ -234,6 +237,7 @@ class YoloTwoChannels(nn.Module):
         out = self.output_layer(weighted_sum)
 
         return out
+
 
 if __name__ == "__main__":
     run = 0
