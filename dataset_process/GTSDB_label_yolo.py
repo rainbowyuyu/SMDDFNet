@@ -31,7 +31,7 @@ def gt2yolo():
         for line in f:
             words = line.strip().split(';')
             img_name = words[0].split(".")[0]
-            label = int(words[-1])
+            label = (get_label(int(words[-1])))
 
             # 原始坐标
             x_min = float(words[1])
