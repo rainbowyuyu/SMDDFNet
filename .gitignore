@@ -1,0 +1,10 @@
+result/MDDF_GSTDB/
+result/MDDF_tt100k
+result/MDDF_coco128
+result/yolo_tt100k
+result/compare_images
+
+result/compare_MDDF
+result/compare_yolo
+
+*.pyc
