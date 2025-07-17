@@ -4,7 +4,7 @@
 
 
 <div align="center">
-  <img src="./asserts/network_plus_2.png" width="1200px"/>
+  <img src="./assets/network_plus_2.png" width="1200px"/>
 </div>
 
 ## Model Zoo
