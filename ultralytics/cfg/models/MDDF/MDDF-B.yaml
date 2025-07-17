@@ -1,9 +1,9 @@
 nc: 80  # number of classes
 scales:   # [depth, width, max_channels]
-  B: [0.33, 0.50, 1024]  # Mamba-YOLOv8-B summary:   21.8M parameters,  49.7 GFLOPs
+  B: [0.33, 0.50, 1024]  # MDDF-B summary:   21.8M parameters,  49.7 GFLOPs
 
 
-# Mamba-YOLO backbone 
+# MDDF backbone
 backbone:
   # [from, repeats, module, args]
   - [-1, 1, SimpleStem, [128, 3]]   # 0-P2/4
@@ -17,7 +17,7 @@ backbone:
   - [-1, 1, YoloTwoChannels, [512,512]]       # 8
   - [-1, 1, SPPF, [1024, 5]] # 9
 
-# Mamba-YOLO PAFPN
+# MDDF PAFPN
 head:
   - [-1, 1, nn.Upsample, [None, 2, 'nearest']]
   - [[-1, 5], 1, Concat, [1]]  # cat backbone P4
