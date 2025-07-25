@@ -182,9 +182,9 @@ def resize_complex_weight(origin_weight, new_h, new_w):
     return new_weight
 
 
-class YoloTwoChannels(nn.Module):
+class DDF(nn.Module):
     def __init__(self, in_channels, out_channels):
-        super(YoloTwoChannels, self).__init__()
+        super(DDF, self).__init__()
 
         self.in_channels = in_channels
         self.out_channels = out_channels
@@ -243,7 +243,7 @@ if __name__ == "__main__":
     run = 0
     if run == 0:
         input_tensor = torch.randn(1, 1024, 8, 8)
-        output = YoloTwoChannels(1024, 1024)
+        output = DDF(1024, 1024)
         output = output(input_tensor)
         print(output.shape)
     else:
