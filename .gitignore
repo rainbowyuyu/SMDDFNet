@@ -9,3 +9,5 @@ result/compare_MDDF
 result/compare_yolo
 
 *.pyc
+assets/compare.ai
+assets/compare.pdf

@@ -78,7 +78,7 @@ from .transformer import (
 
 from .mamba_yolo import SimpleStem, VisionClueMerge, VSSBlock, XSSBlock
 
-from .MyModel import EMA, DynamicFilter, YoloTwoChannels
+from .MyModel import EMA, DynamicFilter, DDF
 
 __all__ = (
     "Conv",
@@ -140,5 +140,5 @@ __all__ = (
     "CBLinear",
     "Silence",
     "SimpleStem", "VisionClueMerge", "VSSBlock", "XSSBlock",
-    "EMA", "DynamicFilter", "YoloTwoChannels",
+    "EMA", "DynamicFilter", "DDF",
 )
