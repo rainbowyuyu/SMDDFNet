@@ -45,7 +45,13 @@ def yolo_detect(input_folder, output_folder, model_path, num_images=None):
         annotated_image = bounding_box_annotator.annotate(scene=frame, detections=detections)
 
         # 自动标注置信度
-        annotated_image = label_annotator.annotate(scene=annotated_image, detections=detections)
+        # 自动标注置信度和标签
+        annotated_image = label_annotator.annotate(
+            scene=annotated_image,
+            detections=detections,
+            labels=[f"{cls} {conf:.2f}" for cls, conf in
+                    zip(detections.data['class_name'], detections.confidence)]
+        )
 
         # 保存带标注的图片
         output_img_path = os.path.join(output_folder, f"{image_file}")

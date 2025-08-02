@@ -40,7 +40,7 @@ def create_composite_image(image, network1_image, network2_image, advantageous_a
     return composite_image
 
 
-def get_advantageous_annotations(annotations1, annotations2):
+def get_advantageous_annotations(annotations1, annotations2, compare_rate):
     """比较两个网络的标注：
     - 如果folder1的类别更多，只要求框数不比folder2少即可；
     - 如果类别数一样或更少，要求每类框都置信度更高，且至少一个高出0.1。
@@ -69,7 +69,7 @@ def get_advantageous_annotations(annotations1, annotations2):
             advantageous.extend(ann1_dict[label])
         return advantageous
 
-    # 否则类别数一样或更少，必须置信度更高，且至少一个高出0.1
+    # 否则类别数一样或更少，必须置信度更高，且至少一个高出compare_rate
     diff_gt_01 = False
     for label in ann2_dict:
         if label not in ann1_dict:
@@ -83,7 +83,7 @@ def get_advantageous_annotations(annotations1, annotations2):
                 conf2 = ann2_dict[label][i][1]
                 if conf1 <= conf2:
                     return []
-                if conf1 - conf2 > 0.2:
+                if conf1 - conf2 > compare_rate:
                     diff_gt_01 = True
             except IndexError:
                 return []
@@ -98,7 +98,7 @@ def get_advantageous_annotations(annotations1, annotations2):
     return advantageous
 
 
-def process_folders(original_folder, network1_folder, network2_folder, output_folder, num_images=None):
+def process_folders(original_folder, network1_folder, network2_folder, output_folder,compare_rate = 0.1, num_images=None):
     """主流程：读取、比较、生成合成图"""
     Path(output_folder).mkdir(parents=True, exist_ok=True)
     img_files = list(Path(network1_folder).glob("*.jpg"))
@@ -119,7 +119,7 @@ def process_folders(original_folder, network1_folder, network2_folder, output_fo
         ann1 = read_annotations(Path(network1_folder) / f"{name}.txt")
         ann2 = read_annotations(Path(network2_folder) / f"{name}.txt")
 
-        adv1 = get_advantageous_annotations(ann1, ann2)
+        adv1 = get_advantageous_annotations(ann1, ann2, compare_rate)
 
         if adv1:
             comp = create_composite_image(original_img, net1_img, net2_img, adv1)
@@ -128,10 +128,10 @@ def process_folders(original_folder, network1_folder, network2_folder, output_fo
 
 
 # 输入文件夹路径
-original_folder = "path/to/original_images"
-network1_folder = "path/to/network1_annotations"
-network2_folder = "path/to/network2_annotations"
-output_folder = "path/to/output_folder"
+original_folder = r"E:\python_project\datasets\FullIJCNN2013_yolo\images\test"
+network1_folder = "GTSDB_compare_MDDF"
+network2_folder = "GTSDB_compare_yolo"
+output_folder = "compare_images/GTSDB"
 
 # 运行处理函数
-process_folders(original_folder, network1_folder, network2_folder, output_folder)
+process_folders(original_folder, network1_folder, network2_folder, output_folder, 0.01)
