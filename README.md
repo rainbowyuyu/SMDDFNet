@@ -6,8 +6,8 @@
 <div align="center">
     <img src="./assets/network/all_network.png" width="1200px"/>
     <img src="./assets/network/DDF.png" width="1200px"/>
-    <img src="./assets/network/EMA.png" width="665px"/>
-    <img src="./assets/network/DF.png" width="528px"/>
+    <img src="./assets/network/EMA.png" width="630px"/>
+    <img src="./assets/network/DF.png" width="500px"/>
     <img src="./assets/network/network_channel.png" width="1200px"/>
 </div>
 
