@@ -41,7 +41,7 @@ def copy_images_from_txt(txt_file, output_folder):
 if __name__ == '__main__':
     # 示例用法
     txt_file = '../../datasets/tt100k_yolo/tt100k_yolo/test.txt'  # 你提供的 txt 文件路径
-    output_folder = 'tt100k_test_images'  # 目标文件夹，存储复制的图片
+    output_folder = 'gstdb_test_images'  # 目标文件夹，存储复制的图片
 
     # 执行复制操作
     copy_images_from_txt(txt_file, output_folder)

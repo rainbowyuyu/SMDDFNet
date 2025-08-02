@@ -1,12 +1,15 @@
-result/MDDF_GSTDB/
+result/MDDF_GTSDB
 result/MDDF_tt100k
 result/MDDF_coco128
 result/yolo_tt100k
+result/yolo_GTSDB
 result/compare_images
 result/MDDF_VOC
 
-result/compare_MDDF
-result/compare_yolo
+result/TT100K_compare_MDDF
+result/TT100K_compare_yolo
+result/GTSDB_compare_MDDF
+result/GTSDB_compare_yolo
 
 *.pyc
 assets/compare.ai
