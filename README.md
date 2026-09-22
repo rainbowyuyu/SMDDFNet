@@ -3,6 +3,16 @@
 ![Python 3.10](https://img.shields.io/badge/python-3.10-g) ![pytorch 2.6.0](https://img.shields.io/badge/pytorch-2.3.0-blue.svg) [![docs](https://img.shields.io/badge/language-English-blue)](README.md)
 
 
+## Architecture video
+
+A five-minute introduction to SMDDFNet, covering the state-space backbone, spatial attention, dynamic frequency filtering, dual fusion, and multi-scale detection. English male narration; original manuscript examples.
+
+[![Watch the SMDDFNet architecture video](assets/video/architecture-poster.jpg)](https://raw.githack.com/rainbowyuyu/SMDDFNet/main/docs/video/index.html)
+
+**[▶ Watch online](https://raw.githack.com/rainbowyuyu/SMDDFNet/main/docs/video/index.html)** · [Download 1080p](https://github.com/rainbowyuyu/SMDDFNet/releases/download/architecture-film-v1/SMDDFNet_Architecture_1080p.mp4)
+
+The player opens with a lightweight 720p stream and offers 1080p playback. Duration: 5:05.
+
 <div align="center">
     <img src="./assets/network/all_network.png" width="1200px"/>
     <img src="./assets/network/DDF.png" width="1200px"/>
