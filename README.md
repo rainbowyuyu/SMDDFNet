@@ -7,9 +7,9 @@
 
 A five-minute introduction to SMDDFNet, covering the state-space backbone, spatial attention, dynamic frequency filtering, dual fusion, and multi-scale detection. English male narration; original manuscript examples.
 
-[![Watch the SMDDFNet architecture video](assets/video/architecture-poster.jpg)](https://raw.githack.com/rainbowyuyu/SMDDFNet/main/docs/video/index.html)
+[![Watch the SMDDFNet architecture video](assets/video/architecture-poster.jpg)](https://rainbowyuyu.github.io/SMDDFNet/video/)
 
-**[▶ Watch online](https://raw.githack.com/rainbowyuyu/SMDDFNet/main/docs/video/index.html)** · [Download 1080p](https://github.com/rainbowyuyu/SMDDFNet/releases/download/architecture-film-v1/SMDDFNet_Architecture_1080p.mp4)
+**[▶ Watch online](https://rainbowyuyu.github.io/SMDDFNet/video/)** · [Download 1080p](https://github.com/rainbowyuyu/SMDDFNet/releases/download/architecture-film-v1/SMDDFNet_Architecture_1080p.mp4)
 
 The player opens with a lightweight 720p stream and offers 1080p playback. Duration: 5:05.
 
